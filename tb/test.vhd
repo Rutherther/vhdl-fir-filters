@@ -8,6 +8,7 @@ context vunit_lib.com_context;
 use work.tb_sig_adder_pkg;
 use work.tb_sig_gen_pkg;
 use work.tb_adc_pkg;
+use work.tb_dac_pkg;
 
 library filter;
 
@@ -51,6 +52,7 @@ begin  -- architecture tb
         tb_sig_gen_pkg.set_shape(net, tb_sig_gen_pkg.SIG_SHAPE_SINE, actor => generator);
 
         tb_adc_pkg.set_min_max(net, -2.0, 2.0);
+        tb_dac_pkg.set_min_max(net, -2.0, 2.0);
         tb_adc_pkg.set_sampling_rate(net, frequency);
         tb_adc_pkg.run(net);
 
@@ -87,6 +89,14 @@ begin  -- architecture tb
       signal_i       => sig,
       signal_o       => sampled_sig,
       current_time_o => current_time);
+
+  dac: entity work.tb_dac_mod
+    generic map (
+      RESOLUTION => resolution)
+    port map (
+      clk_i          => clk,
+      signal_i       => filtered_sig,
+      signal_o       => reconstructed_sig);
 
   xtal: entity work.tb_xtal_mod
     generic map (
