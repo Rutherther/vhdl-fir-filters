@@ -20,12 +20,13 @@ end entity test;
 
 architecture tb of test is
   constant frequency : real := 1_000_000.0;
+  constant resolution : natural := 12;
 
   signal current_time : time;
 
-  signal sig : real;
-  signal sampled_sig  : std_logic_vector(11 downto 0);
-  signal filtered_sig : std_logic_vector(11 downto 0);
+  signal sig, reconstructed_sig : real;
+  signal sampled_sig  : std_logic_vector(resolution - 1 downto 0);
+  signal filtered_sig : std_logic_vector(resolution - 1 downto 0);
 
   signal clk : std_logic;
   signal rst_n : std_logic := '0';
@@ -64,7 +65,7 @@ begin  -- architecture tb
 
   dut: entity filter.filter
     generic map (
-      RESOLUTION => 12)
+      RESOLUTION => resolution)
     port map (
       clk_i    => clk,
       rst_in   => rst_n,
@@ -80,7 +81,7 @@ begin  -- architecture tb
 
   adc: entity work.tb_adc_mod
     generic map (
-      RESOLUTION => 12)
+      RESOLUTION => resolution)
     port map (
       clk_i          => clk,
       signal_i       => sig,
