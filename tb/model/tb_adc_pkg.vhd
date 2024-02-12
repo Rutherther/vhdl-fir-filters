@@ -46,7 +46,6 @@ end package tb_adc_pkg;
 
 package body tb_adc_pkg is
 
-
   impure function get_actor (
     constant inst_name : string := C_DEFAULT_INST_NAME)
     return actor_t is
@@ -100,7 +99,7 @@ package body tb_adc_pkg is
     constant max : in real;
     constant inst_name : in string := C_DEFAULT_INST_NAME) is
     constant actor : actor_t := get_actor(inst_name);
-    variable msg : msg_t := new_msg(set_sampling_rate_msg);
+    variable msg : msg_t := new_msg(set_min_max_msg);
   begin
     push(msg, min);
     push(msg, max);
