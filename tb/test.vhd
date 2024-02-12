@@ -57,7 +57,6 @@ begin  -- architecture tb
       end if;
     end loop;
 
-    report "Ending";
     test_runner_cleanup(runner);
   end process main;
 

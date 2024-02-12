@@ -133,11 +133,8 @@ begin  -- architecture behav
     variable request_phase : real;
     variable request_shape : integer;
   begin  -- process command_bus
-    report "Reporting for duty """ & name(self) & """";
     receive(net, self, request_msg);
     msg_type := message_type(request_msg);
-
-    report "Got msg";
 
     if msg_type = set_frequency_msg then
       request_frequency := pop(request_msg);
@@ -155,7 +152,6 @@ begin  -- architecture behav
       request_phase := pop(request_msg);
       phase <= request_phase;
     elsif msg_type = set_shape_msg then
-      report "Setting shape";
       request_shape := pop(request_msg);
       shape <= sig_gen_shape_t'val(request_shape);
     else
